@@ -1,0 +1,15 @@
+# 環境変数
+.env
+
+# 仮想環境
+venv/
+.venv/
+
+# ★重要: 登録された顔写真データ★
+registered_faces/
+
+# モデルファイル (大きい場合や再配布不可の場合)
+*.onnx
+
+# Pythonキャッシュ
+__pycache__/
