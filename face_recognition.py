@@ -361,17 +361,17 @@ if st.session_state.app_mode == 'MENU':
     st.title("保育園 入退室システム")
     c1, c2 = st.columns(2)
     with c1:
-        if st.button("☀️ 登 園", type="primary", use_container_width=True):
+        if st.button("☀️入室", type="primary", use_container_width=True):
             clear_queue()
             st.session_state.streamer_key = f"scanner-{time.time()}"
-            st.session_state.action_type = "登園"
+            st.session_state.action_type = "入室"
             st.session_state.app_mode = 'SCAN'
             st.rerun()
     with c2:
-        if st.button("🌙 退 園", type="secondary", use_container_width=True):
+        if st.button("🌙退室", type="secondary", use_container_width=True):
             clear_queue()
             st.session_state.streamer_key = f"scanner-{time.time()}"
-            st.session_state.action_type = "退園"
+            st.session_state.action_type = "退室"
             st.session_state.app_mode = 'SCAN'
             st.rerun()
     st.divider()
