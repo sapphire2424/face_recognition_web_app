@@ -6,3 +6,4 @@ insightface
 face_recognition
 onnxruntime
 av
+python-dotenv

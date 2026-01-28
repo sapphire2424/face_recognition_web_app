@@ -12,6 +12,7 @@ from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, WebRtcMode, RT
 from insightface.app import FaceAnalysis
 import face_recognition
 import onnxruntime as ort
+from dotenv import load_dotenv
 
 # ==========================================
 # 0. 設定・定数
@@ -27,6 +28,9 @@ BLUR_THRESHOLD = 40
 # 生体検知の閾値
 LIVENESS_THRESHOLD = 0.70
 MODEL_PATH = "MiniFASNetV2.onnx"
+
+#顔登録・削除の際のパスワード
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "password")
 
 # ==========================================
 # 1. セッション管理
@@ -462,7 +466,7 @@ elif st.session_state.app_mode == 'ADMIN_LOGIN':
     st.subheader("管理者ログイン")
     if st.button("戻る"): reset_to_menu()
     pwd = st.text_input("Password", type="password")
-    if st.button("Login") and pwd == "Umenomi":
+    if st.button("Login") and pwd == password:
         st.session_state.admin_authenticated = True
         st.session_state.app_mode = 'ADMIN_DASHBOARD'
         st.rerun()
