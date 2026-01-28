@@ -1,21 +1,60 @@
 # Nursery Face Attendance System
 
-StreamlitとInsightFaceを活用した、保育施設向けの顔認証入退室管理システムです。
+**⚠️ 注意：本プロジェクトは現在「開発段階（β版）」です。機能の追加や仕様変更が頻繁に行われる可能性があります。**
 
 ## 概要
-登園・退園の記録を顔認証で自動化します。写真による不正（スプーフィング）を防ぐための生体検知（Liveness Detection）機能を搭載しており、安全かつ迅速な受付業務を実現します。
+StreamlitとInsightFaceを活用した、保育施設向けの顔認証入退室管理システムです。
+登園・退園の記録を顔認証で自動化し、現場の事務負担を軽減することを目的としています。
+写真や動画による「なりすまし」を防ぐ生体検知（Liveness Detection）機能を備えており、セキュアな受付業務を実現します。
 
 ## 主な機能
-- **リアルタイム顔認証**: InsightFaceとface_recognitionを組み合わせた高精度な照合。
-- **生体検知 (Liveness Detection)**: MiniFASNetV2を用いた、写真や動画によるなりすまし防止。
-- **管理者画面**: 園児・職員の顔写真登録および削除管理。
-- **ログ管理**: 受付履歴の自動表示。
+- **リアルタイム顔認証スキャン**: WebRTCを利用し、ブラウザ上で高速な顔照合を行います。
+- **デュアル認証ロジック**: InsightFaceとface_recognitionの2つのアルゴリズムを組み合わせ、精度の高い判定を行います。
+- **生体検知 (Liveness Detection)**: MiniFASNetV2モデルを使用し、写真による不正打刻を防止します（閾値: 0.70）。
+- **管理者ダッシュボード**: 園児や職員の顔写真登録、データの削除、および認証ログの確認が可能です。
+- **環境変数によるセキュリティ**: 管理画面のログインパスワードは環境変数で安全に管理されます。
 
 ## 技術スタック
 - **言語**: Python
-- **フレームワーク**: Streamlit
-- **画像処理/AI**: OpenCV, InsightFace, face_recognition, ONNX Runtime
-- **ストリーミング**: streamlit-webrtc
+- **GUI / Web**: Streamlit, streamlit-webrtc
+- **AI / 画像処理**:
+  - InsightFace (buffalo_s)
+  - face_recognition (dlib)
+  - ONNX Runtime (生体検知モデルの推論)
+  - OpenCV
+- **その他**: python-dotenv
 
-## 実装のこだわり
-現場での利用を想定し、逆光やボケへの耐性を高めるための前処理ロジックを実装しています。また、WebRTCを利用することでブラウザのみで動作し、特別なデバイスを必要としない構成にしました。
+## セットアップ
+
+### 1. 必要ファイルの用意
+生体検知用のモデルファイル `MiniFASNetV2.onnx` をプロジェクトルートに配置してください。
+
+### 2. 環境変数の設定
+プロジェクトルートに `.env` ファイルを作成し、管理画面用のパスワードを設定します。
+
+```
+ADMIN_PASSWORD=your_secure_password
+```
+
+### 3. ライブラリのインストール
+
+```
+pip install streamlit streamlit-webrtc opencv-python numpy insightface face_recognition onnxruntime av python-dotenv
+```
+
+### 4. 実行
+
+```
+streamlit run face_recognition.py
+```
+
+## 現在のステータスと今後の予定
+現在はコアとなる認証ロジックとUIの実装が完了した**開発初期段階**です。今後は以下のアップデートを予定しています。
+
+- 認証ログ保存機能。
+- 入退室時刻の自動集計。
+- Discordへのリアルタイム通知連携、物理ロックの自動解錠。
+
+## ライセンス・プライバシーについて
+`registered_faces/` ディレクトリに保存される顔写真は、プライバシーに関わる非常に重要な個人情報です。
+本リポジトリの `.gitignore` 設定により、画像データが外部（GitHub等）に公開されないよう厳重に管理してください。
