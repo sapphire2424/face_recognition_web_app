@@ -30,7 +30,7 @@ LIVENESS_THRESHOLD = 0.70
 MODEL_PATH = "MiniFASNetV2.onnx"
 
 #顔登録・削除の際のパスワード
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "password")
+admin_password = os.getenv("ADMIN_PASSWORD", "password")
 
 # ==========================================
 # 1. セッション管理
@@ -466,7 +466,7 @@ elif st.session_state.app_mode == 'ADMIN_LOGIN':
     st.subheader("管理者ログイン")
     if st.button("戻る"): reset_to_menu()
     pwd = st.text_input("Password", type="password")
-    if st.button("Login") and pwd == password:
+    if st.button("Login") and pwd == admin_password:
         st.session_state.admin_authenticated = True
         st.session_state.app_mode = 'ADMIN_DASHBOARD'
         st.rerun()
